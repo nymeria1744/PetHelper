@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primario_variante"
+    tools:context=".Signup">
+
+    <RelativeLayout
+        android:id="@+id/blocco_zero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30sp"
+        android:layout_marginTop="50sp"
+        android:layout_marginRight="30sp"
+        tools:ignore="ExtraText">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTRATION"
+            android:textAlignment="center"
+            android:textColor="@color/secondario"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descrizione"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleText"
+            android:layout_marginBottom="20sp"
+            android:text="Nice to see you here!"
+            android:textAlignment="center"
+            android:textColor="@color/secondario"
+            android:textSize="24sp"
+            android:textStyle="italic" />
+
+        //username
+
+        <RelativeLayout
+            android:id="@+id/blocco_uno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descrizione"
+            android:layout_marginBottom="10sp">
+
+            <TextView
+                android:id="@+id/usernameHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:textColor="@color/secondario"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/usernameHint"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="30sp">
+
+                <EditText
+                    android:id="@+id/signupusername"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="enter username"
+                    android:inputType="text"
+                    android:textStyle="italic" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        //email
+
+        <RelativeLayout
+            android:id="@+id/blocco_due"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blocco_uno"
+            android:layout_marginBottom="10sp">
+
+            <TextView
+                android:id="@+id/emailHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_address"
+                android:textColor="@color/secondario"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailHint"
+                android:layout_marginEnd="30sp"
+                android:layout_marginBottom="10sp">
+
+                <EditText
+                    android:id="@+id/signupemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="enter email address"
+                    android:inputType="textEmailAddress"
+                    android:textStyle="italic" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+        //password
+
+        <RelativeLayout
+            android:id="@+id/blocco_tre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blocco_due"
+            android:layout_marginBottom="10sp">
+
+            <TextView
+                android:id="@+id/passwordHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Password"
+                android:textColor="@color/secondario"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/passwordHint"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="30sp"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/signuppassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_your_password"
+                    android:inputType="textPassword"
+                    android:textStyle="italic" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        //conferma password
+
+        <RelativeLayout
+            android:id="@+id/blocco_quattro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/blocco_tre"
+            android:layout_marginBottom="10sp">
+
+            <TextView
+                android:id="@+id/confermapasswordHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_password"
+                android:textColor="@color/secondario"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirmpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/confermapasswordHint"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="30sp"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/confirmsignuppassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="confirm password"
+                    android:inputType="textPassword"
+                    android:textStyle="italic" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/signupbutton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/blocco_quattro"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20sp"
+            android:backgroundTint="@color/secondario"
+            android:padding="8sp"
+            android:text="CONTINUE"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/signupbutton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20sp"
+            android:backgroundTint="@color/secondario"
+            android:padding="8sp"
+            android:text="BACK"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

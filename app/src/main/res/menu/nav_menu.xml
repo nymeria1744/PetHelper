@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/general">
+
+        <menu>
+            <item
+                android:title="@string/profile"
+                android:icon="@drawable/ic_baseline_account_circle_24"
+                android:id="@+id/profile" />
+            <item
+                android:title="@string/add_pet"
+                android:icon="@drawable/ic_baseline_add_circle_24"
+                android:id="@+id/add_pet"/>
+            <item
+                android:title="@string/log_out"
+                android:icon="@drawable/ic_baseline_login_24"
+                android:id="@+id/log_out"/>
+        </menu>
+
+    </item>
+
+    <item android:title="@string/support">
+
+        <menu>
+            <item
+                android:title="@string/rate_us"
+                android:icon="@drawable/ic_baseline_star_24"
+                android:id="@+id/rate_us"/>
+            <item
+                android:title="@string/about_us"
+                android:icon="@drawable/ic_baseline_question_answer_24"
+                android:id="@+id/about_us"/>
+        </menu>
+
+    </item>
+
+    <item android:title="@string/settings">
+
+        <menu>
+            <item
+                android:title="@string/dark_theme"
+                android:icon="@drawable/ic_baseline_brightness_4_24"
+                android:id="@+id/dark_theme"
+                />
+            <item
+                android:title="@string/account"
+                android:id="@+id/account"
+                android:icon="@drawable/ic_baseline_account_box_24"/>
+        </menu>
+
+    </item>
+
+</menu>

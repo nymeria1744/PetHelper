@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "251064121388",
+    "firebase_url": "https://pethelper-fb104-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "pethelper-fb104",
+    "storage_bucket": "pethelper-fb104.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251064121388:android:788ae9f020283b5836b989",
+        "android_client_info": {
+          "package_name": "com.example.pethelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251064121388-6m84eenkfnmoec3jg153junpg3n2i32m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAwhwqDEuYUBJYVuipbIfBqzxPCralTh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251064121388-6m84eenkfnmoec3jg153junpg3n2i32m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

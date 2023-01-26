@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primario_variante"
+    tools:context=".Detail">
+
+    <ImageView
+        android:id="@+id/pet_image"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/pet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/pet_image"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="20sp"
+        android:text="@string/pet_name"
+        android:textStyle="bold"
+        android:textColor="@color/text_color"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pet_gender"
+        app:layout_constraintStart_toEndOf="@+id/pet_image"
+        app:layout_constraintTop_toBottomOf="@+id/pet_name"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16sp"
+        android:text="Gender"
+        android:textColor="@color/text_color"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pet_birthday"
+        app:layout_constraintTop_toBottomOf="@+id/pet_gender"
+        app:layout_constraintStart_toEndOf="@+id/pet_image"
+        android:layout_marginTop="16sp"
+        android:layout_marginStart="16sp"
+        android:text="@string/date_of_birth"
+        android:textColor="@color/text_color"
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/pet_birthday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/edit_button_layout"/>
+
+    <LinearLayout
+        android:id="@+id/edit_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="true"
+        android:padding="4sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/schedule_button"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/edit_button_icon"
+            android:text="Schedule"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/secondario"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/delete_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="true"
+        android:padding="4sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginBottom="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/delete_button_icon"
+            android:text="@string/delete"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/accento"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
