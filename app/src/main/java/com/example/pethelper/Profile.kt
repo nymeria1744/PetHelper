@@ -1,20 +1,16 @@
 package com.example.pethelper
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pethelper.databinding.AddPetBinding
 import com.example.pethelper.databinding.ProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.profile.*
-import kotlinx.android.synthetic.main.recycler_view.*
+
 
 class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
 
@@ -39,7 +35,18 @@ class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
             startActivity(intent)
         }
 
-        petList = ArrayList()
+        getPetListFromFirebase(
+            owner = Firebase.auth.currentUser?.uid.toString(),
+            callback = object : OnDataReceiveCallback {
+                override fun onDataReceived(petList: ArrayList<Pet>) {
+                    this@Profile.petList = petList
+                    adapter = Adapter(petList, this@Profile)
+                    binding.recyclerView.adapter = adapter
+                    binding.recyclerView.layoutManager = LinearLayoutManager(this@Profile)
+                }
+            }
+        )
+
 //        petList = generatePetList(owner)
 //
 //        adapter = Adapter(petList, this)
@@ -85,13 +92,6 @@ class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-
-        petList = generatePetList(Firebase.auth.currentUser?.uid.toString())
-
-        adapter = Adapter(petList, this)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-
     }
 
     private fun generateList(size: Int): ArrayList<Pet> {
@@ -117,41 +117,39 @@ class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
         return list
     }
 
-    private fun generatePetList(owner: String): ArrayList<Pet> {
+    interface OnDataReceiveCallback {
+        fun onDataReceived(petList: ArrayList<Pet>)
+    }
 
+    private fun getPetListFromFirebase(owner: String, callback: OnDataReceiveCallback) {
         database = FirebaseDatabase.getInstance()
-        reference = database.getReference("Userspets")
+        reference = database.getReference("Userspets").child(owner)
 
-        reference.child(owner).get()
-            .addOnSuccessListener { it ->
-                if (it.exists()) {
-                    it.children.forEach {
-                        val id = it.child("id").value.toString()
-                        val name = it.child("name").value.toString()
-                        val image = it.child("imageResource").value.toString()
-                        val birthday = it.child("birthday").value.toString()
-                        val species = it.child("species").value.toString()
-                        val sex = it.child("sex").value.toString()
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val petList = arrayListOf<Pet>()
+                dataSnapshot.children.forEach() {
+                    val id = it.child("id").value.toString()
+                    val name = it.child("name").value.toString()
+                    val image = it.child("imageResource").value.toString()
+                    val birthday = it.child("birthday").value.toString()
+                    val species = it.child("species").value.toString()
+                    val sex = it.child("sex").value.toString()
 
-                        val pet = Pet(birthday, id, image, name, owner, sex, species)
+                    val pet = Pet(birthday, id, image, name, owner, sex, species)
 
-                        if (!petList.contains(pet)) {
-                            petList.add(pet)
-                        }
-
-                        Toast.makeText(this, "name is $name", Toast.LENGTH_SHORT).show()
-
+                    if (!petList.contains(pet)) {
+                        petList.add(pet)
                     }
-                } else {
-                    Toast.makeText(this, "impossible retrieve data", Toast.LENGTH_SHORT).show()
                 }
 
-
-            }.addOnFailureListener {
-                Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
+                callback.onDataReceived(petList)
             }
 
-        return petList
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(this@Profile, "failed", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     //ITEM CLICK LISTENER  FOR ADAPTER
