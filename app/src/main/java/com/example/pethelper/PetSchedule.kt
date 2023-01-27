@@ -8,10 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TimePicker
+import android.widget.*
 import com.example.pethelper.databinding.AddPetBinding
 import com.example.pethelper.databinding.PetScheduleBinding
 import com.google.firebase.database.DatabaseReference
@@ -40,6 +37,10 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         binding = PetScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bundle : Bundle? = intent.extras
+        val petId = bundle!!.getString("petId").toString()
+        val petName = bundle.getString("petName").toString()
+
         val timeButton: Button = findViewById(R.id.time_button)
         timeButton.setOnClickListener {
 
@@ -47,7 +48,7 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
             TimePickerDialog(
                 this,
-                AlertDialog.THEME_HOLO_DARK,
+                AlertDialog.BUTTON_NEUTRAL,
                 this,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -71,12 +72,12 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                 time = binding.timeButton.text.toString()
                 notify = binding.checkboxNotify.isChecked
 
-                val schedule = Schedule(uniqueID,"",activity,days,time,notify)
+                val schedule = Schedule(uniqueID,petId,activity,days,time,notify)
                 database = FirebaseDatabase.getInstance()
                 reference = database.getReference("Schedule")
 
                 //INSERIRE IL NOME DEL PET TRAMITE PUT EXTRA NELL'INTENT DI DETAILS
-                reference.child("").setValue(schedule).addOnSuccessListener {
+                reference.child(uniqueID).setValue(schedule).addOnSuccessListener {
 
                     binding.activity.text.clear()
                     binding.timeButton.text = ""
@@ -91,9 +92,25 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
 
                     binding.checkboxNotify.isChecked = false
 
+                    //crea un istanza in Petschedule
+                    reference = database.getReference("Petschedule")
+                    reference.child(petId).child(uniqueID).setValue(schedule).addOnSuccessListener {
+                        Toast.makeText(
+                            this,
+                            "Successfully added $petName's schedule",
+                            Toast.LENGTH_SHORT)
+                            .show()
+
+                    }
+
                     finish()
+
+                }.addOnFailureListener {
+                    Toast.makeText(this, "failed to add schedule", Toast.LENGTH_SHORT).show()
                 }
 
+            }else{
+                Toast.makeText(this, "You need to select time first", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -103,26 +120,26 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
     private fun selectDays() : String {
         var selectedDays = ""
 
-        if (findViewById<CheckBox>(R.id.checkbox_monday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_monday).text.toString()+", "
+        if (binding.checkboxMonday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_tuesday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_tuesday).text.toString()+", "
+        if (binding.checkboxTuesday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_wednesday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_wednesday).text.toString()+", "
+        if (binding.checkboxWednesday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_thursday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_thursday).text.toString()+", "
+        if (binding.checkboxThursday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_friday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_friday).text.toString()+", "
+        if (binding.checkboxWednesday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_saturday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_saturday).text.toString()+", "
+        if (binding.checkboxSaturday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()+" "
         }
-        if (findViewById<CheckBox>(R.id.checkbox_sunday).isChecked) {
-            selectedDays += findViewById<CheckBox>(R.id.checkbox_sunday).text.toString()
+        if (binding.checkboxSunday.isChecked) {
+            selectedDays += binding.checkboxMonday.text.toString()
         }
         return selectedDays
     }
