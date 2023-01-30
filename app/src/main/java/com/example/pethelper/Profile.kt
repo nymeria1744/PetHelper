@@ -113,11 +113,13 @@ class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
     //ITEM CLICK LISTENER  FOR ADAPTER
     override fun onItemClick(position: Int) {
         val intent = Intent(this@Profile, Detail::class.java)
+
         intent.putExtra("title", petList[position].name)
         intent.putExtra("image", petList[position].imageResource)
         intent.putExtra("birthday", petList[position].birthday)
         intent.putExtra("sex", petList[position].sex)
         intent.putExtra("id", petList[position].ID)
+
         startActivity(intent)
     }
 }

@@ -12,11 +12,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
-class Detail : AppCompatActivity(), Adapter.OnItemClickListener,
+class Detail : AppCompatActivity(),
     ScheduleAdapter.OnItemClickListener {
 
     private lateinit var binding: DetailsBinding
-    private lateinit var schedule: ArrayList<Schedule>
+    private lateinit var scheduleList: ArrayList<Schedule>
     private lateinit var adapter : ScheduleAdapter
     private lateinit var reference: DatabaseReference
     private lateinit var database: FirebaseDatabase
@@ -56,9 +56,9 @@ class Detail : AppCompatActivity(), Adapter.OnItemClickListener,
         getScheduleFromFirebase(
             petId = petId,
             callback = object : OnDataReceiveCallback {
-                override fun onDataReceived(schedule: ArrayList<Schedule>) {
-                    this@Detail.schedule = schedule
-                    adapter = ScheduleAdapter(schedule, this@Detail)
+                override fun onDataReceived(scheduleList: ArrayList<Schedule>) {
+                    this@Detail.scheduleList = scheduleList
+                    adapter = ScheduleAdapter(scheduleList, this@Detail)
                     binding.recyclerView.adapter = adapter
                     binding.recyclerView.layoutManager = LinearLayoutManager(this@Detail)
                 }
@@ -103,10 +103,9 @@ class Detail : AppCompatActivity(), Adapter.OnItemClickListener,
         })
     }
 
-
- //ITEM CLICK FOR ADAPTER
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        scheduleList.removeAt(position)
+        adapter.notifyItemRemoved(position)
     }
 
 

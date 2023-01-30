@@ -32,9 +32,6 @@ class MainActivity : AppCompatActivity(),
     private lateinit var binding : MainActivityBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
-    private lateinit var reference : DatabaseReference
-    private lateinit var database : FirebaseDatabase
-    private lateinit var petList : ArrayList<Pet>
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,13 +106,6 @@ class MainActivity : AppCompatActivity(),
     }*/
 
 
-
-    override fun onStop() {
-        super.onStop()
-        Toast.makeText(this, "STOP", Toast.LENGTH_SHORT).show()
-    }
-
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -157,74 +147,5 @@ class MainActivity : AppCompatActivity(),
             }
         return true
     }
-
-
-
-
-    private fun generatePetList(owner: String, database : FirebaseDatabase): ArrayList<Pet> {
-
-        reference = database.getReference("Userspets")
-
-        reference.child(owner).get()
-        .addOnSuccessListener { it ->
-
-            it.children.forEach {
-
-                val id = it.child("id").value.toString()
-                val name = it.child("name").value.toString()
-                val image = it.child("imageResource").value.toString()
-                val birthday = it.child("birthday").value.toString()
-                val species = it.child("species").value.toString()
-                val sex = it.child("sex").value.toString()
-
-                Toast.makeText(this, "name is $name", Toast.LENGTH_SHORT).show()
-
-                if(!petList.contains(Pet(birthday, id, image, name, owner, sex, species))){
-
-                    petList.add(Pet(birthday, id, image, name, owner, sex, species))
-                    Toast.makeText(this, "pet $name added", Toast.LENGTH_SHORT).show()
-
-                }
-
-            }
-        }.addOnFailureListener{
-
-            Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
-        }
-
-        return petList
-    }
-
-//    private fun generatePetList1(owner: String, database : FirebaseDatabase): ArrayList<Pet> {
-//
-//        reference = database.getReference("Userspets")
-//
-//        reference.child(owner).get().addOnSuccessListener { it ->
-//
-//            it.children.forEach {
-//
-//                val id = it.child("id").value.toString()
-//                val name = it.child("name").value.toString()
-//                val image = it.child("imageResource").value.toString()
-//                val birthday = it.child("birthday").value.toString()
-//                val species = it.child("species").value.toString()
-//                val sex = it.child("sex").value.toString()
-//
-//                Toast.makeText(this, "name is $name", Toast.LENGTH_SHORT).show()
-//
-//                if(!petList.contains(Pet(birthday, id, image, name, owner, sex, species))){
-//
-//                    petList.add(Pet(birthday, id, image, name, owner, sex, species))
-//
-//                }
-//            }
-//        }.addOnFailureListener{
-//
-//            Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
-//        }
-//        return petList
-//    }
-
-
 
 }

@@ -26,55 +26,54 @@
             <TextView
                 android:id="@+id/activityName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4sp"
+                android:layout_height="22dp"
+                android:layout_margin="8sp"
                 android:text="Attività "
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4sp"
+                android:layout_margin="8sp"
                 android:text="mon, tue, wed, thr, fri, sat"
                 android:textStyle="italic"
                 android:textColor="@color/text_color"
-                app:layout_constraintStart_toEndOf="@id/activityName"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/activityName" />
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4sp"
+                android:layout_margin="8sp"
                 android:text="17:30 PM"
-                android:textStyle="bold"
                 android:textColor="@color/text_color"
-                app:layout_constraintStart_toEndOf="@id/days"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/days"
+                app:layout_constraintTop_toBottomOf="@id/activityName" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="@color/giallo"
-                android:layout_marginStart="4sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:text="Done"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-black" />
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/text_color"
+                android:layout_margin="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

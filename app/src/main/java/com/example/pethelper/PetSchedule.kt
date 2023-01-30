@@ -124,22 +124,22 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
             selectedDays += binding.checkboxMonday.text.toString()+" "
         }
         if (binding.checkboxTuesday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
+            selectedDays += binding.checkboxTuesday.text.toString()+" "
         }
         if (binding.checkboxWednesday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
+            selectedDays += binding.checkboxWednesday.text.toString()+" "
         }
         if (binding.checkboxThursday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
+            selectedDays += binding.checkboxThursday.text.toString()+" "
         }
         if (binding.checkboxWednesday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
+            selectedDays += binding.checkboxFriday.text.toString()+" "
         }
         if (binding.checkboxSaturday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
+            selectedDays += binding.checkboxSaturday.text.toString()+" "
         }
         if (binding.checkboxSunday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()
+            selectedDays += binding.checkboxSunday.text.toString()
         }
         return selectedDays
     }

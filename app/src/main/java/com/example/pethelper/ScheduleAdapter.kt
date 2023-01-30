@@ -3,6 +3,7 @@ package com.example.pethelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -30,31 +31,18 @@ class ScheduleAdapter(
         holder.selectedDays.text = currentItem.days
         holder.time.text = currentItem.time
 
+        holder.deleteButton.setOnClickListener{
+            listener.onItemClick(position)
+        }
+
     }
 
-    inner class ViewHolder(
-        itemView: View,
-        listener: OnItemClickListener
-    ):
-        RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class ViewHolder(itemView: View, listener: OnItemClickListener)
+        : RecyclerView.ViewHolder(itemView) {
         val activityName: TextView = itemView.findViewById(R.id.activityName)
-        val selectedDays: TextView = itemView.findViewById(R.id.pet_name)
+        val selectedDays: TextView = itemView.findViewById(R.id.days)
         val time: TextView = itemView.findViewById(R.id.time)
-
-        //si preferisce scrivere i metodi di setOnClickListener qui dato che questo metodo viene
-        // chiamato solo poche volte nel codice a differenza del onBindViewHolder
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(p0: View?) {
-            val position = adapterPosition
-            //CONTROLLIAMO CHE LA POSIZIONE NON SIA INVALIDA, NON DOVREBBE COMUNQUE ACCADERE
-            if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position)
-            }
-        }
+        val deleteButton : Button = itemView.findViewById(R.id.done_button)
 
     }
 
