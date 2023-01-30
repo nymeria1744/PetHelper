@@ -119,6 +119,7 @@ class Profile : AppCompatActivity(), Adapter.OnItemClickListener {
         intent.putExtra("birthday", petList[position].birthday)
         intent.putExtra("sex", petList[position].sex)
         intent.putExtra("id", petList[position].ID)
+        intent.putExtra("owner", petList[position].owner)
 
         startActivity(intent)
     }

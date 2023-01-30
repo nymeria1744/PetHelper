@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(),
 
         }
 
-        //IMPOSTA IL LISTENER PER IL CLICK SULL'OGGETTO SELEZIONATO
+        //IMPOSTA IL LISTENER PER IL CLICK DELLA NAV VIEW
         navView.setNavigationItemSelectedListener(this)
 
     }
@@ -90,20 +90,6 @@ class MainActivity : AppCompatActivity(),
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /*fun removeItem(view: View) {
-        val index = Random.nextInt(8)
-
-        placeholderList.removeAt(index)
-        adapter.notifyItemRemoved(index)
-    }*/
-
-    /* override fun onItemClick(position: Int) {
-        Toast.makeText(this,"Item $position clicked!",Toast.LENGTH_SHORT).show()
-        val clickedItem = placeholderList[position]
-        clickedItem.title = "Clicked"
-        adapter.notifyItemChanged(position)
-    }*/
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -125,8 +111,17 @@ class MainActivity : AppCompatActivity(),
                 }
 
                 R.id.add_pet -> {
-                    val intent = Intent(this@MainActivity, AddPet::class.java)
-                    startActivity(intent)
+                    if(auth.currentUser!=null){
+                        val intent = Intent(this@MainActivity, AddPet::class.java)
+                        intent.putExtra("user", auth.currentUser?.uid.toString())
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(
+                            applicationContext,
+                            "Login to see your profile",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
                 R.id.log_out -> {
@@ -134,11 +129,14 @@ class MainActivity : AppCompatActivity(),
                     val intent = Intent(this@MainActivity, Login::class.java)
                     startActivity(intent)
                 }
-                R.id.rate_us -> Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT)
+                R.id.rate_us -> Toast.makeText(
+                    applicationContext, "Function not yet implemented", Toast.LENGTH_SHORT)
                     .show()
-                R.id.about_us -> Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT)
+                R.id.about_us -> Toast.makeText(
+                    applicationContext, "Function not yet implemented", Toast.LENGTH_SHORT)
                     .show()
-                R.id.dark_theme -> Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT)
+                R.id.dark_theme -> Toast.makeText(
+                    applicationContext, "Function not yet implemented", Toast.LENGTH_SHORT)
                     .show()
                 R.id.account -> {
                     val intent = Intent(this@MainActivity, Signup::class.java)

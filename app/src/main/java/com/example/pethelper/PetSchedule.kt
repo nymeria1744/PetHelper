@@ -58,8 +58,7 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         }
 
         binding.backButton.setOnClickListener {
-            val intent = Intent(this@PetSchedule, AddPet::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.saveButton.setOnClickListener {

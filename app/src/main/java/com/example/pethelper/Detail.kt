@@ -1,16 +1,14 @@
 package com.example.pethelper
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pethelper.databinding.DetailsBinding
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 
 class Detail : AppCompatActivity(),
     ScheduleAdapter.OnItemClickListener {
@@ -20,6 +18,7 @@ class Detail : AppCompatActivity(),
     private lateinit var adapter : ScheduleAdapter
     private lateinit var reference: DatabaseReference
     private lateinit var database: FirebaseDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +33,7 @@ class Detail : AppCompatActivity(),
         val birthday = bundle.getString("birthday").toString()
         val sex = bundle.getString("sex").toString()
         val petId = bundle.getString("id").toString()
+        val owner = bundle.getString("owner").toString()
 
         //TRASFORMA L'IMAGE RESOURCE DA STRINGA A INT
         val imageRes: Int = java.lang.String.valueOf(image).toInt()
@@ -53,6 +53,29 @@ class Detail : AppCompatActivity(),
 
         }
 
+        val positiveButtonClick = { _: DialogInterface, _: Int ->
+            deletePet(petId, name, owner)
+        }
+        val negativeButtonClick = { dialog: DialogInterface, _: Int ->
+            dialog.cancel()
+        }
+
+        binding.deleteButton.setOnClickListener{
+
+            val builder = AlertDialog.Builder(this)
+
+            with(builder)
+            {
+                setTitle("Delete pet")
+                setMessage("Are you sure you want to delete $name from your pet list?")
+                setPositiveButton("YES", DialogInterface.OnClickListener(function = positiveButtonClick))
+                setNegativeButton("NO", negativeButtonClick)
+                show()
+            }
+
+
+        }
+
         getScheduleFromFirebase(
             petId = petId,
             callback = object : OnDataReceiveCallback {
@@ -65,6 +88,18 @@ class Detail : AppCompatActivity(),
             }
         )
 
+    }
+
+    private fun deletePet(petId: String, petName: String, petOwner: String) {
+        database = FirebaseDatabase.getInstance()
+
+        val petRef = database.getReference("Pet").child(petName)
+        petRef.removeValue()
+
+        val userspetRef = database.getReference("Userspets").child(petOwner).child(petId)
+        userspetRef.removeValue()
+
+        finish()
     }
 
     interface OnDataReceiveCallback {
@@ -104,8 +139,23 @@ class Detail : AppCompatActivity(),
     }
 
     override fun onItemClick(position: Int) {
+
+        val scheduleId = scheduleList[position].ID
+        val petId = scheduleList[position].pet
+
+        database = FirebaseDatabase.getInstance()
+        reference = database.getReference("Petschedule").child(petId).child(scheduleId)
+
+        reference.removeValue()
+
+        database = FirebaseDatabase.getInstance()
+        reference = database.getReference("Schedule").child(scheduleId)
+
+        reference.removeValue()
+
         scheduleList.removeAt(position)
         adapter.notifyItemRemoved(position)
+
     }
 
 
