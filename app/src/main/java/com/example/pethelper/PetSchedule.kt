@@ -1,35 +1,25 @@
 package com.example.pethelper
 
-import android.app.AlertDialog
-import android.app.TimePickerDialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.*
-import com.example.pethelper.databinding.AddPetBinding
 import com.example.pethelper.databinding.PetScheduleBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.pet_schedule.*
-import kotlinx.android.synthetic.main.pet_schedule.view.*
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 import java.util.*
 
-class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
+class PetSchedule : AppCompatActivity() {
 
     private lateinit var binding: PetScheduleBinding
     private val calendar = Calendar.getInstance()
-    private val formatter = SimpleDateFormat("hh:mm a", Locale.ITALY)
     private lateinit var reference : DatabaseReference
     private lateinit var database: FirebaseDatabase
-    private lateinit var days : String
-    private lateinit var time : String
     private var notify : Boolean = false
-    private var clicked : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,37 +31,26 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
         val petId = bundle!!.getString("petId").toString()
         val petName = bundle.getString("petName").toString()
 
-        val timeButton: Button = findViewById(R.id.time_button)
-        timeButton.setOnClickListener {
-
-            clicked = true
-
-            TimePickerDialog(
-                this,
-                AlertDialog.BUTTON_NEUTRAL,
-                this,
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true
-            ).show()
-
-        }
-
         binding.backButton.setOnClickListener {
             finish()
         }
 
         binding.saveButton.setOnClickListener {
-            //CONTROLLARE CHE TIME BUTTON SIA STATO UTILIZZATO
-            if(clicked){
 
+            if(binding.activity.text.isNotEmpty()){
                 val activity = binding.activity.text.toString()
-                days = selectDays()
                 val uniqueID = UUID.randomUUID().toString()
-                time = binding.timeButton.text.toString()
+                val days = binding.datePicker.dayOfMonth.toString() + "/" + binding.datePicker.month+1
+                val zero = if(binding.timePicker.minute < 10){
+                    "0"
+                } else{
+                    ""
+                }
+                val time = binding.timePicker.hour.toString() + ":$zero" + binding.timePicker.minute.toString()
                 notify = binding.checkboxNotify.isChecked
 
                 val schedule = Schedule(uniqueID,petId,activity,days,time,notify)
+
                 database = FirebaseDatabase.getInstance()
                 reference = database.getReference("Schedule")
 
@@ -79,15 +58,6 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                 reference.child(uniqueID).setValue(schedule).addOnSuccessListener {
 
                     binding.activity.text.clear()
-                    binding.timeButton.text = ""
-
-                    binding.checkboxMonday.isChecked = false
-                    binding.checkboxTuesday.isChecked = false
-                    binding.checkboxWednesday.isChecked = false
-                    binding.checkboxThursday.isChecked = false
-                    binding.checkboxFriday.isChecked = false
-                    binding.checkboxSaturday.isChecked = false
-                    binding.checkboxSunday.isChecked = false
 
                     binding.checkboxNotify.isChecked = false
 
@@ -99,60 +69,100 @@ class PetSchedule : AppCompatActivity(), TimePickerDialog.OnTimeSetListener {
                             "Successfully added $petName's schedule",
                             Toast.LENGTH_SHORT)
                             .show()
-
                     }
-
-                    finish()
 
                 }.addOnFailureListener {
                     Toast.makeText(this, "failed to add schedule", Toast.LENGTH_SHORT).show()
                 }
 
+                if(notify){
+                    //se l'utente vuole ricevere una notifica...
+                    createNotificationChannel()
+                    scheduleNotification(petName)
+                }
+
+                finish()
+
             }else{
-                Toast.makeText(this, "You need to select time first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter an activity name pls", Toast.LENGTH_SHORT).show()
             }
 
         }
 
     }
 
-    private fun selectDays() : String {
-        var selectedDays = ""
+    private fun scheduleNotification(petName: String) {
 
-        if (binding.checkboxMonday.isChecked) {
-            selectedDays += binding.checkboxMonday.text.toString()+" "
-        }
-        if (binding.checkboxTuesday.isChecked) {
-            selectedDays += binding.checkboxTuesday.text.toString()+" "
-        }
-        if (binding.checkboxWednesday.isChecked) {
-            selectedDays += binding.checkboxWednesday.text.toString()+" "
-        }
-        if (binding.checkboxThursday.isChecked) {
-            selectedDays += binding.checkboxThursday.text.toString()+" "
-        }
-        if (binding.checkboxWednesday.isChecked) {
-            selectedDays += binding.checkboxFriday.text.toString()+" "
-        }
-        if (binding.checkboxSaturday.isChecked) {
-            selectedDays += binding.checkboxSaturday.text.toString()+" "
-        }
-        if (binding.checkboxSunday.isChecked) {
-            selectedDays += binding.checkboxSunday.text.toString()
-        }
-        return selectedDays
+        val intent = Intent(applicationContext, Notification::class.java)
+        val title = "$petName needs you!"
+        val message = binding.activity.text.toString()
+        intent.putExtra(messageExtra, message)
+        intent.putExtra(titleExtra, title)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val time = getTime()
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingIntent
+        )
+
+        //showAlert(time, title, message)
     }
 
-    override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
+//    private fun showAlert(time: Long, title: String, message: String) {
+//        val date = Date(time)
+//        val dateFormat = DateFormat.getLongDateFormat(applicationContext)
+//        val timeFormat = DateFormat.getTimeFormat(applicationContext)
+//
+//        AlertDialog.Builder(this)
+//            .setTitle("Notification Scheduled")
+//            .setMessage(
+//                "Title: " + title +
+//                "\nMessage: " + message +
+//                "\nAt: "+ dateFormat.format(date) + " " + timeFormat.format(date)
+//            ).setPositiveButton("OK"){_,_ ->}
+//    }
 
-        displayFormattedTime(calendar.timeInMillis)
+    private fun getTime(): Long {
+        val minute = binding.timePicker.minute
+        val hour = binding.timePicker.hour
+        val day = binding.datePicker.dayOfMonth
+        val month = binding.datePicker.month
+        val year = binding.datePicker.year
+
+        calendar.set(year, month, day, hour, minute)
+
+        return calendar.timeInMillis
+
     }
 
-    private fun displayFormattedTime(timestamp: Long) {
-        findViewById<Button>(R.id.time_button).text = formatter.format(timestamp)
-        Log.i("Formatting", timestamp.toString())
+    private fun createNotificationChannel() {
+
+        val name = "Notification Channel"
+        val desc = "Channel description"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+        val channel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel(channelId, name, importance)
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        channel.description = desc
+
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE)
+                as NotificationManager
+
+        notificationManager.createNotificationChannel(channel)
 
     }
+
 }

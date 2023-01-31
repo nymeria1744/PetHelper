@@ -65,6 +65,9 @@
     <string name="assigned_sex_at_birth">Assigned Sex at Birth</string>
     <string name="enter_your_pet_s_name_here">Enter your pet\'s name here</string>
     <string name="species">Species</string>
+    <string name="pet_list">Pet List</string>
+    <string name="your_pets">Your pets</string>
+    <string name="activity">Activity</string>
     <string-array name="species">
         <item>Cat</item>
         <item>Dog</item>

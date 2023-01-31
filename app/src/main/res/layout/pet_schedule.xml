@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primario_variante"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PetSchedule">
 
@@ -26,8 +27,8 @@
         android:id="@+id/layout_dx"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="48sp"
-        android:layout_marginEnd="48sp"
+        android:layout_marginStart="24sp"
+        android:layout_marginEnd="24sp"
         android:layout_marginTop="8sp"
         app:layout_constraintBottom_toTopOf="@+id/buttons_layout"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16sp"
-            android:text="Activity"
+            android:text="@string/activity"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -61,100 +62,45 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/activity"
             android:layout_marginTop="24sp"
-            android:text="Select days:"
+            android:text="Select day and time"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="24sp" />
 
+
         <LinearLayout
+            android:id="@+id/date_pick_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/checkbox_layout"
             android:layout_below="@id/days_text"
-            android:orientation="horizontal">
-            <CheckBox android:id="@+id/checkbox_monday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Mon"/>
-            <CheckBox android:id="@+id/checkbox_tuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Tue"/>
-            <CheckBox android:id="@+id/checkbox_wednesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Wed"/>
-            <CheckBox android:id="@+id/checkbox_thursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Thur"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/checkbox_layout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/checkbox_layout"
+            android:scaleY="0.8"
+            android:scaleX="0.8"
             android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/checkbox_friday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fri"
-                android:textColor="@color/black" />
+            <DatePicker
+                android:id="@+id/date_picker"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_saturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sat"
-                android:textColor="@color/black" />
-
-            <CheckBox
-                android:id="@+id/checkbox_sunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sun"
-                android:textColor="@color/black" />
+            <TimePicker
+                android:id="@+id/time_picker"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:calendarViewShown="false"
+                android:timePickerMode="spinner"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/time_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/checkbox_layout1"
-            android:layout_marginTop="24sp"
-            android:text="Choose time:"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/time_button"
-            android:layout_width="match_parent"
-            android:layout_height="75sp"
-            android:layout_below="@id/time_text"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16sp"
-            android:layout_marginEnd="21dp"
-            android:backgroundTint="@color/giallo"
-            android:text="@string/open_time_picker"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/checkbox_notify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time_button"
+            android:layout_below="@id/date_pick_layout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24sp"
             android:text="@string/notify_me"
