@@ -93,7 +93,7 @@ class Detail : AppCompatActivity(),
     private fun deletePet(petId: String, petName: String, petOwner: String) {
         database = FirebaseDatabase.getInstance()
 
-        val petRef = database.getReference("Pet").child(petName)
+        val petRef = database.getReference("Pets").child(petName)
         petRef.removeValue()
 
         val userspetRef = database.getReference("Userspets").child(petOwner).child(petId)

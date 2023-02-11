@@ -12,9 +12,10 @@
                 android:icon="@drawable/ic_baseline_add_circle_24"
                 android:id="@+id/add_pet"/>
             <item
-                android:title="@string/log_out"
-                android:icon="@drawable/ic_baseline_login_24"
-                android:id="@+id/log_out"/>
+                android:title="@string/dark_theme"
+                android:icon="@drawable/ic_baseline_brightness_4_24"
+                android:id="@+id/dark_theme"
+                />
         </menu>
 
     </item>
@@ -34,16 +35,15 @@
 
     </item>
 
-    <item android:title="@string/settings">
+    <item android:title="@string/account">
 
         <menu>
             <item
-                android:title="@string/dark_theme"
-                android:icon="@drawable/ic_baseline_brightness_4_24"
-                android:id="@+id/dark_theme"
-                />
+                android:title="@string/log_out"
+                android:icon="@drawable/ic_baseline_login_24"
+                android:id="@+id/log_out"/>
             <item
-                android:title="@string/account"
+                android:title="@string/registration"
                 android:id="@+id/account"
                 android:icon="@drawable/ic_baseline_account_box_24"/>
         </menu>

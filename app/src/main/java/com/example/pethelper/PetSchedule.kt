@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.annotation.RequiresApi
 import com.example.pethelper.databinding.PetScheduleBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -40,13 +41,21 @@ class PetSchedule : AppCompatActivity() {
             if(binding.activity.text.isNotEmpty()){
                 val activity = binding.activity.text.toString()
                 val uniqueID = UUID.randomUUID().toString()
-                val days = binding.datePicker.dayOfMonth.toString() + "/" + binding.datePicker.month+1
-                val zero = if(binding.timePicker.minute < 10){
+
+                val zeroDay = if(binding.datePicker.dayOfMonth < 10){
+                    "0"
+                }else{
+                    ""
+                }
+                val days = zeroDay + binding.datePicker.dayOfMonth.toString() + "/" + (binding.datePicker.month+1).toString()
+
+                val zeroMinute = if(binding.timePicker.minute < 10){
                     "0"
                 } else{
                     ""
                 }
-                val time = binding.timePicker.hour.toString() + ":$zero" + binding.timePicker.minute.toString()
+                val time = binding.timePicker.hour.toString() + ":$zeroMinute" + binding.timePicker.minute.toString()
+
                 notify = binding.checkboxNotify.isChecked
 
                 val schedule = Schedule(uniqueID,petId,activity,days,time,notify)
@@ -77,7 +86,9 @@ class PetSchedule : AppCompatActivity() {
 
                 if(notify){
                     //se l'utente vuole ricevere una notifica...
-                    createNotificationChannel()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        createNotificationChannel()
+                    }
                     scheduleNotification(petName)
                 }
 
@@ -142,20 +153,18 @@ class PetSchedule : AppCompatActivity() {
         calendar.set(year, month, day, hour, minute)
 
         return calendar.timeInMillis
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
 
         val name = "Notification Channel"
         val desc = "Channel description"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
 
-        val channel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channel =
             NotificationChannel(channelId, name, importance)
-        } else {
-            TODO("VERSION.SDK_INT < O")
-        }
+
         channel.description = desc
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE)

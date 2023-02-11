@@ -25,11 +25,6 @@ class AddPet : AppCompatActivity() {
         binding = AddPetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*binding.scheduleButton.setOnClickListener {
-            val intent = Intent(this@AddPet, PetSchedule::class.java)
-            startActivity(intent)
-        }*/
-
         binding.saveButton.setOnClickListener {
 
             val uniqueID = UUID.randomUUID().toString()
@@ -39,9 +34,9 @@ class AddPet : AppCompatActivity() {
             val owner = Firebase.auth.currentUser?.uid.toString()
 
             val sex = if(binding.male.isChecked)
-                "male"
+                binding.male.text.toString()
             else if (binding.female.isChecked)
-                "female"
+                binding.female.text.toString()
             else
                 "?"
 

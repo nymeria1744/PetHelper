@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,148 +8,164 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PetSchedule">
 
-    <TextView
-        android:id="@+id/text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/choose_your_option"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="italic" />
-
-
-    <RelativeLayout
-        android:id="@+id/layout_dx"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24sp"
-        android:layout_marginEnd="24sp"
-        android:layout_marginTop="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttons_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/activity_text"
+            android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16sp"
-            android:text="@string/activity"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/activity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_text"
-            android:layout_marginTop="8sp"
-            android:hint="food, drink, doctor, play time, etc"
-            android:minHeight="48dp"
-            android:textColor="@color/black" />
-
-
-        <TextView
-            android:id="@+id/days_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity"
             android:layout_marginTop="24sp"
-            android:text="Select day and time"
-            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/choose_your_option"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="italic" />
 
+        <RelativeLayout
+            android:id="@+id/layout_dx"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24sp"
+            android:layout_marginEnd="24sp"
+            android:layout_marginTop="8sp"
+            app:layout_constraintBottom_toTopOf="@+id/buttons_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text">
+
+            <TextView
+                android:id="@+id/activity_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:text="@string/activity"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_text"
+                android:layout_marginTop="8sp"
+                android:hint="food, drink, doctor, play time, etc"
+                android:textColorHint="@color/text_color"
+                android:minHeight="48dp"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:id="@+id/days_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity"
+                android:layout_marginTop="24sp"
+                android:text="Select day and time"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+
+            <LinearLayout
+                android:id="@+id/date_pick_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/days_text"
+                android:scaleY="0.8"
+                android:scaleX="0.8"
+                android:orientation="horizontal">
+
+                <DatePicker
+                    android:id="@+id/date_picker"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:calendarTextColor="@color/text_color"
+                    android:layout_weight="1"
+                    android:scaleY="1.2"
+                    android:scaleX="1.2"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:padding="8sp"/>
+
+                <TimePicker
+                    android:id="@+id/time_picker"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:calendarTextColor="@color/text_color"
+                    android:layout_weight="1"
+                    android:scaleY="1.2"
+                    android:scaleX="1.2"
+                    android:calendarViewShown="false"
+                    android:timePickerMode="spinner"
+                    android:padding="8sp"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox_notify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date_pick_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24sp"
+                android:text="@string/notify_me"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/date_pick_layout"
+            android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/days_text"
-            android:scaleY="0.8"
-            android:scaleX="0.8"
-            android:orientation="horizontal">
+            android:clipToPadding="true"
+            android:padding="4sp"
+            android:layout_marginEnd="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginBottom="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <DatePicker
-                android:id="@+id/date_picker"
+            <Button
+                android:id="@+id/back_button"
                 android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner"/>
+                android:drawableLeft="@drawable/back_arrow_icon"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="40sp"
+                android:text="@string/back"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/secondario"
+                android:textColor="@color/black" />
 
-            <TimePicker
-                android:id="@+id/time_picker"
+            <Button
+                android:id="@+id/save_button"
                 android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:calendarViewShown="false"
-                android:timePickerMode="spinner"/>
+                android:drawableLeft="@drawable/save_button_icon"
+                android:layout_marginStart="40sp"
+                android:layout_marginEnd="10sp"
+                android:text="@string/save"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/verde"
+                android:textColor="@color/black"
+                />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/checkbox_notify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/date_pick_layout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24sp"
-            android:text="@string/notify_me"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/buttons_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="true"
-        android:padding="4sp"
-        android:layout_marginEnd="10sp"
-        android:layout_marginStart="10sp"
-        android:layout_marginBottom="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <Button
-            android:id="@+id/back_button"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/back_arrow_icon"
-            android:layout_marginStart="10sp"
-            android:layout_marginEnd="40sp"
-            android:text="@string/back"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/secondario"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/save_button_icon"
-            android:layout_marginStart="40sp"
-            android:layout_marginEnd="10sp"
-            android:text="@string/save"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/verde"
-            android:textColor="@color/black"
-            />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

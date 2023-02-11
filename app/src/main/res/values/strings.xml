@@ -68,6 +68,8 @@
     <string name="pet_list">Pet List</string>
     <string name="your_pets">Your pets</string>
     <string name="activity">Activity</string>
+    <string name="fill_every_option_to_add_your_pet">Fill every option to add your Pet!</string>
+    <string name="registration">Registration</string>
     <string-array name="species">
         <item>Cat</item>
         <item>Dog</item>
@@ -79,5 +81,6 @@
         <item>Pig</item>
         <item>Rabbit</item>
         <item>Rodent</item>
+        <item>Other</item>
     </string-array>
 </resources>
